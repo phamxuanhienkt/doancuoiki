@@ -1,9 +1,7 @@
-export const Button = ({ children, className }:any) => {
+"use client";
+export const Button = ({ children, className }: any) => {
   return (
-    <button
-      className={className}
-      onClick={() => alert(`Hello `)}
-    >
+    <button className={className} onClick={() => alert(`Hello `)}>
       {children}
     </button>
   );
