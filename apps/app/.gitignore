@@ -1,3 +1,4 @@
 db.*
 %SystemDrive%
 __pycache__
+venv

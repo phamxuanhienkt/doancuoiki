@@ -1,20 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
+import { StyleSheet } from "react-native";
+import {
+  QueryClient,
+  QueryClientProvider
+} from 'react-query';
+import HomeScreen from "./src/Screens/HomeScreen";
+import LoginScreen from "./src/Screens/LoginScreen";
+import SignupScreen from "./src/Screens/SignupScreen";
+import WelcomeScreen from "./src/Screens/WelcomeSreen";
+// const queryClientOption: QueryClientConfig = {
+//   defaultOptions: {
+//     queries: { refetchOnWindowFocus: false, retry: false, staleTime: 1000 * 5 },
+//   },
+// };
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+const queryClient = new QueryClient();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <QueryClientProvider client={queryClient}>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name={"Welcome"} component={WelcomeScreen} />
+        <Stack.Screen name={"LOGIN"} component={LoginScreen} />
+        <Stack.Screen name={"SIGNUP"} component={SignupScreen} />
+        <Stack.Screen name="HOME" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    </QueryClientProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
+
+const styles = StyleSheet.create({});
