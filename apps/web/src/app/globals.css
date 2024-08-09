@@ -4,8 +4,7 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,10 +23,53 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+    background: linear-gradient(to right, #4c51bf, #ec4899);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+
+
+
+.animate-background-pulse {
+  animation: background-pulse 1s infinite;
+}
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blink {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes pulse-circle {
+  0%, 100% {
+    stroke: #63b3ed; /* Màu xanh dương sáng hơn */
+  }
+  50% {
+    stroke: #2b6cb0; /* Màu xanh dương đậm */
+  }
+}
+
+@keyframes pulse-background {
+  0%, 100% {
+    background-color: #cbd88d; /* Màu xanh dương đậm */
+  }
+  50% {
+    background-color: #d3ea5f; /* Màu xanh dương sáng hơn */
+  }
+}
+
+.animate-pulse-circle {
+  animation: pulse-circle 1s infinite;
+}
+
+.animate-pulse-background {
+  animation: pulse-background 1s infinite;
 }
