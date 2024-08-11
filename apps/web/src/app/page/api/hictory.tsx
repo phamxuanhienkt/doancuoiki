@@ -1,13 +1,28 @@
 // components/VideoList.tsx
-'use client';
+"use client";
 
-import { VideoCard } from "@repo/ui";
+import { VideoCard } from "@/components/button";
 
 const VideoHictory: React.FC = () => {
   const videos = [
-    { title: 'Video Title 1', description: 'Description for video 1.', views: 1500, earnings: 10.25 },
-    { title: 'Video Title 2', description: 'Description for video 2.', views: 3000, earnings: 20.50 },
-    { title: 'Video Title 3', description: 'Description for video 3.', views: 4500, earnings: 30.75 },
+    {
+      title: "Video Title 1",
+      description: "Description for video 1.",
+      views: 1500,
+      earnings: 10.25,
+    },
+    {
+      title: "Video Title 2",
+      description: "Description for video 2.",
+      views: 3000,
+      earnings: 20.5,
+    },
+    {
+      title: "Video Title 3",
+      description: "Description for video 3.",
+      views: 4500,
+      earnings: 30.75,
+    },
   ];
 
   return (
