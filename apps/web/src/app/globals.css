@@ -23,7 +23,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-    background: linear-gradient(to right, #4c51bf, #ec4899);
+    background-image: linear-gradient(to right, #2980b9, #6dd5fa);
 }
 
 @layer utilities {

@@ -1,12 +1,14 @@
 'use client';
 import { useState } from 'react';
 import { IoMdSearch } from "react-icons/io";
+import { useRouter } from 'next/router'; // Import useRouter
 
 const Header: React.FC = () => {
   const [showBox, setShowBox] = useState(false);
   const [lognBox, setLognBox] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false); // Thêm trạng thái kiểm tra đăng nhập
+  const [loggedIn, setLoggedIn] = useState(false); 
+  //const router = useRouter(); // Khai báo useRouter
 
   const handleChange = (e: { target: { value: any; }; }) => {
     const value = e.target.value;
@@ -24,8 +26,12 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     setLoggedIn(false);
-    setLognBox(false); // Đóng khung lognBox sau khi đăng xuất
+    setLognBox(false); 
   };
+
+  //const goToProfile = () => {
+    //router.push('/profile'); // Điều hướng đến trang profile
+  //};
 
   return (
     <header className="bg-gradient-to-r from-purple-600 to-pink-500 rounded-sm flex items-center justify-between px-4 py-2 w-full h-[100px] border-1">
@@ -62,12 +68,11 @@ const Header: React.FC = () => {
               <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-red-600 rounded-full"></span>
             </button>
             <div className="relative flex flex-col">
-              <button onFocus={toggleLognBox}>
+              <button onFocus={toggleLognBox} onClick={() => window.location.href = 'http://localhost:3000/profile'} >
                 <img src="public/img/anh-dep-thien-nhien-2-1.jpg" alt="User Avatar" className="w-8 h-8 rounded-full" />
               </button>
               {lognBox && (
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white border-2 border-gray-300 rounded-xl shadow-lg p-4">
-                  <button onClick={handleLogout} className="w-full text-left px-2 py-1 hover:bg-gray-100">Logout</button>
                   <button onClick={handleLogout} className="w-full text-left px-2 py-1 hover:bg-gray-100">Logout</button>
                 </div>
               )}

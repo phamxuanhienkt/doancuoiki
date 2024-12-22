@@ -1,7 +1,7 @@
 import React from 'react'
 import AdBanner from '../page/api/AdBanner'
 import AdsterraBanner from '../page/api/add'
-import VideoHictory from '../page/api/hictory'
+import VideoHictory from '../page/api/history'
 import Profile from '../page/api/profile'
 
 const page = () => {

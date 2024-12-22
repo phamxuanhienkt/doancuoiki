@@ -12,16 +12,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  hideHeader = false,
+  hideFooter = false,
 }: Readonly<{
   children: React.ReactNode;
+  hideHeader?: boolean;
+  hideFooter?: boolean;
+
 }>) {
   return (
-    <html lang="en">
+    <html lang="en">  
       <body  >
-
-        <div className="mx-[10%]"><Header/></div>  
+         { !hideHeader &&(          <div className="mx-[10%]"><Header/></div> ) }
         <div className={inter.className}> {children}</div>
-        <Footer/> 
+      {!hideFooter && (<Footer/>)}   
       </body>
     </html>
   );

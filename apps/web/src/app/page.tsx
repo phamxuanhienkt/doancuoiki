@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <Head>
         <title>My Website</title>
-        <meta name="description" content="Example implementation of Adsterra banner with Next.js and Tailwind CSS" />
+        <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
