@@ -1,41 +1,70 @@
-import { FaPlay, FaPause, FaStop } from 'react-icons/fa';
+"use client";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { FaPlay } from "react-icons/fa";
+
+interface VideoData {
+  _id: string;
+  title: string;
+  description: string;
+  videoPath: string;
+  views: number; // Thêm trường lượt xem
+}
 
 const VideoList: React.FC = () => {
-  const videos = [
-    { title: 'Video Title 1', description: 'Description for video 1.' },
-    { title: 'Video Title 2', description: 'Description for video 2.' },
-    { title: 'Video Title 3', description: 'Description for video 3.' },
-  ];
+  const [videos, setVideos] = useState<VideoData[]>([]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/video");
+        const data: VideoData[] = await response.json();
+
+        // Sắp xếp video theo lượt xem giảm dần và lấy 3 video đầu tiên
+        const topVideos = data.sort((a, b) => b.views - a.views).slice(0, 3);
+        setVideos(topVideos);
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+      }
+    };
+
+    fetchVideos();
+  }, []);
 
   return (
-    <div className="max-w-lg mx-auto bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl shadow-md overflow-hidden">
-      <div className="p-6">
-        <h2 className="text-2xl font-semibold mb-4">Video đề xuất</h2>
-        <ul className="divide-y divide-gray-200 rounded-full">
-          {videos.map((video, index) => (
-            <li key={index} className="py-4 flex items-center">
-               <div className="flex-shrink-0">
-                <FaPlay className="h-6 w-6 text-gray-500" />
-              </div>
-              <div className="ml-3">
-                <p className="text-lg font-medium text-gray-900">{video.title}</p>
-                <p className="text-sm text-gray-500">{video.description}</p>
-              </div>
-              <div className="ml-auto flex space-x-3">
-                <button>
-                  <FaPlay className="h-5 w-5 text-green-500" />
-                </button>
-                <button>
-                  <FaPause className="h-5 w-5 text-yellow-500" />
-                </button>
-                <button>
-                  <FaStop className="h-5 w-5 text-red-500" />
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+    <div className="max-w-4xl mx-auto mt-8 bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-gradient-to-r from-purple-600 to-pink-500 p-6">
+        <h3 className="text-3xl font-bold text-white mb-6 text-center">
+        Top 3 Most Viewed Videos
+        </h3>
       </div>
+      <ul className="divide-y divide-gray-200">
+        {videos.map((video) => (
+          <li key={video._id} className="p-4 flex items-center hover:bg-gray-50 transition">
+            <Link href={`/videotail/${video._id}`}>
+              <div className="flex items-center space-x-4">
+                {/* Biểu tượng Play */}
+                <div className="flex-shrink-0 bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-full shadow-md">
+                  <FaPlay className="text-white text-xl" />
+                </div>
+
+                {/* Thông tin Video */}
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    {video.title}
+                  </h3>
+                  <p className="text-gray-500 text-sm line-clamp-2">
+                    {video.description}
+                  </p>
+                  <p className="text-sm text-gray-400 mt-1">
+                    {video.views.toLocaleString()} lượt xem
+                  </p>
+                </div>
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

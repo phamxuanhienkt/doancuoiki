@@ -4,7 +4,19 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  
+
+}
+
+scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,13 +29,9 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-    background-image: linear-gradient(to right, #2980b9, #6dd5fa);
+  background: linear-gradient(to bottom, #87CEEB, #ffffff); /* Sky blue to white */
+  overflow: hidden;
+  z-index: -1;
 }
 
 @layer utilities {
@@ -38,10 +46,19 @@ body {
 .animate-background-pulse {
   animation: background-pulse 1s infinite;
 }
+
 @keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .blink {
@@ -49,20 +66,30 @@ body {
 }
 
 @keyframes pulse-circle {
-  0%, 100% {
-    stroke: #63b3ed; /* Màu xanh dương sáng hơn */
+
+  0%,
+  100% {
+    stroke: #63b3ed;
+    /* Màu xanh dương sáng hơn */
   }
+
   50% {
-    stroke: #2b6cb0; /* Màu xanh dương đậm */
+    stroke: #2b6cb0;
+    /* Màu xanh dương đậm */
   }
 }
 
 @keyframes pulse-background {
-  0%, 100% {
-    background-color: #cbd88d; /* Màu xanh dương đậm */
+
+  0%,
+  100% {
+    background-color: #cbd88d;
+    /* Màu xanh dương đậm */
   }
+
   50% {
-    background-color: #d3ea5f; /* Màu xanh dương sáng hơn */
+    background-color: #d3ea5f;
+    /* Màu xanh dương sáng hơn */
   }
 }
 
@@ -73,3 +100,26 @@ body {
 .animate-pulse-background {
   animation: pulse-background 1s infinite;
 }
+
+/* Đảm bảo Swiper chiếm toàn bộ chiều rộng và chiều cao màn hình */
+.swiper-container {
+  width: 1038px;
+  height: 600px;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1038px !important;
+  height: 600px !important;
+
+}
+
+video {
+  max-width: 1038px;
+  max-height: 600px;
+  object-fit: cover;
+  /* Giữ tỷ lệ video */
+}
+

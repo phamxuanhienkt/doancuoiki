@@ -1,39 +1,80 @@
-'use client';
-import { useEffect } from 'react';
+"use client";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Mousewheel, Navigation, Pagination } from "swiper/modules";
 
-const VideoPlayer: React.FC = () => {
+interface VideoData {
+  _id: string;
+  title: string;
+  description: string;
+  videoPath: string;
+  views: number;
+}
+
+const VideoPlayerSwiper: React.FC = () => {
+  const [videos, setVideos] = useState<VideoData[]>([]);
+
   useEffect(() => {
-    const adScript = `
-      <script type="text/javascript">
-        atOptions = {
-          'key' : '22753cfe6b485c4382eb448993e52975',
-          'format' : 'iframe',
-          'height' : 90,
-          'width' : 728,
-          'params' : {}
-        };
-      </script>
-      <script type="text/javascript" src="//www.topcreativeformat.com/22753cfe6b485c4382eb448993e52975/invoke.js"></script>
-    `;
+    const fetchVideos = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/video");
+        const data = await response.json();
+        setVideos(data);
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+      }
+    };
 
-    const adContainer = document.getElementById('ad-container');
-    if (adContainer) {
-      adContainer.innerHTML = adScript;
-    }
+    fetchVideos();
   }, []);
 
+  const handleVideoEnd = async (_id: string) => {
+    try {
+      await fetch(`http://localhost:5000/api/video/${_id}/increment-views`, {
+        method: "PUT",
+      });
+    } catch (error) {
+      console.error("Error incrementing video views:", error);
+    }
+  };
+
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-1 flex justify-center items-center bg-gray-200">
-        <div id="ad-container" className="w-full max-w-lg h-24">
-          {/* Mã quảng cáo sẽ được nhúng vào đây */}
-        </div>
-      </div>
-      <div className="flex-1 bg-gray-100 p-4">
-        <p className="text-gray-700 text-lg">Quảng cáo video:</p>
-      </div>
+    <div className="h-[600px] mt-32 bg-black flex items-center">
+      <Swiper
+        modules={[Navigation, Pagination, Mousewheel]}
+        direction="vertical"
+        pagination={{ clickable: true }}
+        loop
+        spaceBetween={0}
+        slidesPerView={1}
+        mousewheel={true}
+        className="swiper-container"
+      >
+        {videos.map((video) => (
+          <SwiperSlide key={video._id} className="swiper-slide ">
+            <div className=" flex items-center justify-center">
+              <video
+                className="max-w-full object-cover"
+                src={video.videoPath.replaceAll('"', "")}
+                autoPlay
+                loop
+                playsInline
+                onEnded={() => handleVideoEnd(video._id)}
+              />
+              <div className="absolute bottom-10 left-5 text-white bg-black bg-opacity-50 p-4 rounded-lg">
+                <h2 className="text-xl font-bold">{video.title}</h2>
+                <p className="text-sm">{video.description}</p>
+                <div className="text-sm mt-2">Lượt xem: {video.views}</div>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };
 
-export default VideoPlayer;
+export default VideoPlayerSwiper;
